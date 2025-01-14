@@ -1,0 +1,74 @@
+.start-site {
+  display: flex;
+  justify-content: center;
+  background: inherit;
+  min-width: 320px;
+}
+
+.quiz-frame {
+  background: linear-gradient(#16301e, #121e16);
+  flex: 1;
+  min-width: 300px;
+  max-width: 800px;
+  min-height: 500px;
+  height: auto;
+  padding: 35px 40px;
+  margin: 8vh 2vh;
+  border-radius: 8px;
+  box-shadow: 2px 4px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.loading-message {
+  font-size: 18px;
+  font-weight: bold;
+  color: #007bff;
+  text-align: center;
+  padding: 20px;
+  background-color: #e7f1ff;
+  border-radius: 8px;
+  margin: 20px;
+  box-shadow: 0 2px 5px;
+}
+
+.error-message {
+  font-size: 18px;
+  font-weight: bold;
+  color: #d9534f;
+  text-align: center;
+  padding: 20px;
+  background-color: #f8d7da;
+  border-radius: 8px;
+  margin: 20px;
+  box-shadow: 0 2px 5px;
+}
+
+.no-questions-message {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffc107;
+  text-align: center;
+  padding: 20px;
+  background-color: #fff3cd;
+  border-radius: 8px;
+  margin: 20px 0;
+  box-shadow: 0 2px 5px;
+}
+
+.loading-message:hover {
+  background-color: #cce5ff;
+  cursor: pointer;
+}
+
+.error-message:hover {
+  background-color: #f5c6cb;
+  cursor: pointer;
+}
+
+.no-questions-message:hover {
+  background-color: #ffeeba;
+  cursor: pointer;
+}
