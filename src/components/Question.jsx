@@ -9,13 +9,9 @@ export default function Question({
 }) {
   const [selectedOption, setSelectedOption] = useState(null);
 
-  const {
-    currentQuestion,
-    shuffledOptions,
-    handleNextQuestion,
-    handleReviewMyPicks,
-  } = useContext(QuestionContext);
-  const { question, correctAnswer, wrongAnswers } = currentQuestion;
+  const { currentQuestion, handleNextQuestion, handleReviewMyPicks } =
+    useContext(QuestionContext);
+  const { question, correctAnswer, options } = currentQuestion;
 
   const pickedOptionsRef = useRef([]);
 
@@ -43,15 +39,15 @@ export default function Question({
   return (
     <>
       {question && <div className="question-frame">{question}</div>}
-      {shuffledOptions && shuffledOptions.length > 0 ? (
+      {options && options.length > 0 ? (
         <div className={`answer-options ${showAnswer ? "show-answer" : ""}`}>
-          {shuffledOptions.map((option, index) => {
+          {options.map((option, index) => {
             let optionColor;
             if (showAnswer && option === correctAnswer) {
               optionColor = "correct-answer";
             } else if (
               showAnswer &&
-              wrongAnswers.includes(option) &&
+              correctAnswer !== option &&
               selectedOption === option
             ) {
               optionColor = "wrong-answer";

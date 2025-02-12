@@ -10,55 +10,44 @@ async function fetchQuestions() {
 }
 
 function QuestionContextProvider({ children, onFinish }) {
-  const [questionNumber, setQuestionNumber] = useState(0);
   const [newTimer, setNewTimer] = useState(false);
+  const [questionNumber, setQuestionNumber] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState({});
-  const [allQuestions, setAllQuestions] = useState([]);
-  const [shuffledOptions, setShuffledOptions] = useState([]);
-  const [allShuffledOptions, setAllShuffledOptions] = useState([]);
+  const [history, setHistory] = useState([]);
 
   const reviewPicksRef = useRef([]);
 
-  const {
-    fetchedData: questionsData,
-    setFetchedData: setQuestionsData,
-    isFetching,
-    error,
-    setNewGame,
-  } = useFetch(fetchQuestions);
+  const { fetchedData, setFetchedData, isFetching, error, setNewGameTrigger } =
+    useFetch(fetchQuestions);
 
   useEffect(() => {
-    if (questionsData && questionsData.length > 0) {
-      const actualQuestion = {
-        question: questionsData[questionNumber].question.text,
-        correctAnswer: questionsData[questionNumber].correctAnswer,
-        wrongAnswers: questionsData[questionNumber].incorrectAnswers,
-      };
-      setCurrentQuestion(actualQuestion);
-      setAllQuestions((prevQuestions) => {
-        return [
-          ...prevQuestions,
-          {
-            question: actualQuestion.question,
-            correctAnswer: actualQuestion.correctAnswer,
-          },
-        ];
-      });
-
-      const allOptions = [
-        questionsData[questionNumber].correctAnswer,
-        ...questionsData[questionNumber].incorrectAnswers,
+    if (fetchedData && fetchedData.length > 0) {
+      const unshuffledOptions = [
+        fetchedData[questionNumber].correctAnswer,
+        ...fetchedData[questionNumber].incorrectAnswers,
       ];
-      const shuffled = allOptions.sort(() => Math.random() - 0.5);
-      setShuffledOptions(shuffled);
-      setAllShuffledOptions((prevOptions) => [...prevOptions, shuffled]);
+      const currentQuestionObject = {
+        question: fetchedData[questionNumber].question.text,
+        correctAnswer: fetchedData[questionNumber].correctAnswer,
+        options: unshuffledOptions.sort(() => Math.random() - 0.5),
+      };
+
+      setCurrentQuestion(currentQuestionObject);
+      setHistory((prevHistory) => [
+        ...prevHistory,
+        {
+          question: currentQuestionObject.question,
+          correctAnswer: currentQuestionObject.correctAnswer,
+          options: currentQuestionObject.options,
+        },
+      ]);
     }
-  }, [questionsData, questionNumber]);
+  }, [fetchedData, questionNumber]);
 
   function handleNextQuestion() {
     const questionCounter = setTimeout(() => {
       setQuestionNumber((prevNum) => {
-        if (prevNum < questionsData.length - 1) {
+        if (prevNum < fetchedData.length - 1) {
           return prevNum + 1;
         } else {
           onFinish();
@@ -75,11 +64,10 @@ function QuestionContextProvider({ children, onFinish }) {
   }
 
   function handleNewGame() {
-    setNewGame((trigger) => !trigger);
-    setQuestionsData(null);
+    setNewGameTrigger((trigger) => !trigger);
+    setFetchedData(null);
     setQuestionNumber(0);
-    setAllQuestions([]);
-    setAllShuffledOptions([]);
+    setHistory([]);
   }
 
   function handleReviewMyPicks(myPicks) {
@@ -89,16 +77,14 @@ function QuestionContextProvider({ children, onFinish }) {
   const questionCtx = {
     handleNextQuestion,
     currentQuestion,
-    allQuestions,
-    shuffledOptions,
-    allShuffledOptions,
-    questionsData,
+    fetchedData,
     isFetching,
     error,
     handleNewGame,
     newTimer,
     handleReviewMyPicks,
     reviewPicksRef,
+    history,
   };
 
   return (

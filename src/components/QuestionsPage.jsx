@@ -10,7 +10,7 @@ export default function QuestionsPage() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [skippedForReview, setSkippedForReview] = useState(false);
 
-  const { isFetching, error, questionsData, newTimer, handleNextQuestion } =
+  const { isFetching, error, fetchedData, newTimer, handleNextQuestion } =
     useContext(QuestionContext);
 
   const intervalRef = useRef();
@@ -47,7 +47,7 @@ export default function QuestionsPage() {
     return <div className="error-message">Error: {error.message}</div>;
   }
 
-  if (!questionsData || questionsData.length === 0) {
+  if (!fetchedData || fetchedData.length === 0) {
     return <div className="no-questions-message">No questions available.</div>;
   }
 
@@ -61,7 +61,7 @@ export default function QuestionsPage() {
             sx={{ height: "8px", borderRadius: "10px" }}
           />
         </Box>
-        {questionsData && (
+        {fetchedData && (
           <Question
             onStopTimer={handleStopTimer}
             showAnswer={showAnswer}

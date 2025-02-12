@@ -9,7 +9,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function FinishPage({ onTryAgain }) {
-  const { handleNewGame, allShuffledOptions, allQuestions, reviewPicksRef } =
+  const { handleNewGame, history, reviewPicksRef } =
     useContext(QuestionContext);
 
   const myPicks = reviewPicksRef.current;
@@ -20,10 +20,10 @@ export default function FinishPage({ onTryAgain }) {
   }
 
   const correctPick = myPicks.filter(
-    (pick, index) => pick === allQuestions[index].correctAnswer
+    (pick, index) => pick === history[index].correctAnswer
   );
   const wrongPick = myPicks.filter(
-    (pick, index) => pick !== allQuestions[index].correctAnswer && pick !== " "
+    (pick, index) => pick !== history[index].correctAnswer && pick !== " "
   );
   const skipped = myPicks.filter((pick) => pick === " ");
 
@@ -79,7 +79,7 @@ export default function FinishPage({ onTryAgain }) {
               padding: "35px 40px",
             }}
           >
-            {allQuestions.map((questionObject, questionIndex) => {
+            {history.map((questionObject, questionIndex) => {
               return (
                 <div
                   key={questionObject.question}
@@ -87,12 +87,11 @@ export default function FinishPage({ onTryAgain }) {
                 >
                   {questionObject.question}
                   <div className="options-review">
-                    {allShuffledOptions[questionIndex].map((questionOption) => {
+                    {history[questionIndex].options.map((questionOption) => {
                       const isMyPick =
                         questionOption === myPicks[questionIndex];
                       const isCorrect =
-                        questionOption ===
-                        allQuestions[questionIndex].correctAnswer;
+                        questionOption === history[questionIndex].correctAnswer;
                       const isWrong = isMyPick && !isCorrect;
 
                       return (

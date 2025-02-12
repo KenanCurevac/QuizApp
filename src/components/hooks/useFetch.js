@@ -4,7 +4,7 @@ export default function useFetch(fetchFun) {
   const [fetchedData, setFetchedData] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState(null);
-  const [newGame, setNewGame] = useState(false);
+  const [newGameTrigger, setNewGameTrigger] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -19,13 +19,13 @@ export default function useFetch(fetchFun) {
     }
 
     fetchData();
-  }, [fetchFun, newGame]);
+  }, [fetchFun, newGameTrigger]);
 
   return {
     fetchedData,
     setFetchedData,
     isFetching,
     error,
-    setNewGame,
+    setNewGameTrigger,
   };
 }
