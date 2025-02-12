@@ -3,7 +3,7 @@ import "./Question.css";
 import { QuestionContext } from "./store/QuestionContext";
 
 export default function Question({
-  onStopTimer,
+  onRevealAnswer,
   showAnswer,
   skippedForReview,
 }) {
@@ -16,7 +16,7 @@ export default function Question({
   const pickedOptionsRef = useRef([]);
 
   function handlePickOption(option) {
-    onStopTimer();
+    onRevealAnswer();
     setSelectedOption(option);
     handleNextQuestion();
     pickedOptionsRef.current.push(option);

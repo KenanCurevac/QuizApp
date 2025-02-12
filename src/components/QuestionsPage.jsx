@@ -10,8 +10,13 @@ export default function QuestionsPage() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [skippedForReview, setSkippedForReview] = useState(false);
 
-  const { isFetching, error, fetchedData, newTimer, handleNextQuestion } =
-    useContext(QuestionContext);
+  const {
+    isFetching,
+    error,
+    fetchedData,
+    newCountdownTrigger,
+    handleNextQuestion,
+  } = useContext(QuestionContext);
 
   const intervalRef = useRef();
 
@@ -24,20 +29,20 @@ export default function QuestionsPage() {
     }, 200);
 
     return () => clearInterval(intervalRef.current);
-  }, [newTimer]);
-
-  function handleStopTimer() {
-    clearInterval(intervalRef.current);
-    setShowAnswer(true);
-  }
+  }, [newCountdownTrigger]);
 
   useEffect(() => {
     if (timeLeft === 0) {
-      handleStopTimer();
+      handleRevealAnswer();
       handleNextQuestion();
       setSkippedForReview((trigger) => !trigger);
     }
   }, [timeLeft]);
+
+  function handleRevealAnswer() {
+    clearInterval(intervalRef.current);
+    setShowAnswer(true);
+  }
 
   if (isFetching) {
     return <div className="loading-message">Loading questions...</div>;
@@ -63,7 +68,7 @@ export default function QuestionsPage() {
         </Box>
         {fetchedData && (
           <Question
-            onStopTimer={handleStopTimer}
+            onRevealAnswer={handleRevealAnswer}
             showAnswer={showAnswer}
             skippedForReview={skippedForReview}
           />

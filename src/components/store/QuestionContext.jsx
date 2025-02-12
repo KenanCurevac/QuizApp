@@ -10,10 +10,10 @@ async function fetchQuestions() {
 }
 
 function QuestionContextProvider({ children, onFinish }) {
-  const [newTimer, setNewTimer] = useState(false);
   const [questionNumber, setQuestionNumber] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState({});
   const [history, setHistory] = useState([]);
+  const [newCountdownTrigger, setNewCountdownTrigger] = useState(false);
 
   const reviewPicksRef = useRef([]);
 
@@ -55,7 +55,7 @@ function QuestionContextProvider({ children, onFinish }) {
         }
       });
 
-      setNewTimer((trigger) => !trigger);
+      setNewCountdownTrigger((trigger) => !trigger);
     }, 1500);
 
     return () => {
@@ -81,7 +81,7 @@ function QuestionContextProvider({ children, onFinish }) {
     isFetching,
     error,
     handleNewGame,
-    newTimer,
+    newCountdownTrigger,
     handleReviewMyPicks,
     reviewPicksRef,
     history,
