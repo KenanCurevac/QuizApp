@@ -1,5 +1,5 @@
-import { useContext, useEffect, useRef, useState } from "react";
 import "./Question.css";
+import { useContext, useEffect, useRef, useState } from "react";
 import { QuestionContext } from "./store/QuestionContext";
 
 export default function Question({
@@ -40,7 +40,7 @@ export default function Question({
     <>
       {question && <div className="question-frame">{question}</div>}
       {options && options.length > 0 && (
-        <div className={`answer-options ${showAnswer ? "show-answer" : ""}`}>
+        <div className="answer-options">
           {options.map((option, index) => {
             let optionColor;
 

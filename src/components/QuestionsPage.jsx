@@ -1,7 +1,7 @@
-import Question from "./Question";
 import "./QuestionsPage.css";
 import { useContext, useEffect, useRef, useState } from "react";
 import { QuestionContext } from "./store/QuestionContext";
+import Question from "./Question";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 import DataStatus from "./DataStatus";
@@ -58,14 +58,10 @@ export default function QuestionsPage() {
   }
 
   return (
-    <div className="start-site">
+    <div className="question-page">
       <div className="quiz-frame">
         <Box sx={{ width: "100%" }}>
-          <LinearProgress
-            variant="determinate"
-            value={timeLeft}
-            sx={{ height: "8px", borderRadius: "10px" }}
-          />
+          <LinearProgress variant="determinate" value={timeLeft} />
         </Box>
         {fetchedData && (
           <Question

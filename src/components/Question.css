@@ -43,7 +43,3 @@
 .disabled-button {
   pointer-events: none;
 }
-
-.show-answer .option {
-  pointer-events: none;
-}

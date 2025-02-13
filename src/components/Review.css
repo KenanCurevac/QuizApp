@@ -1,0 +1,66 @@
+.MuiAccordion-root {
+  border-radius: 15px;
+  overflow: hidden;
+  background: linear-gradient(#064848, #096c5c);
+}
+
+.MuiAccordionSummary-content {
+  color: #cefada;
+  font-weight: bold;
+  font-size: 27px;
+}
+
+.MuiAccordionSummary-gutters:hover {
+  background: #0c9292;
+}
+
+.game-review {
+  border-top: 2px solid #121e16;
+  padding: 35px 40px;
+}
+
+.questions-review {
+  background: transparent;
+  margin-bottom: 40px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #cefada;
+  text-align: center;
+}
+
+.options-review {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.option-from-review {
+  background-color: #cefada;
+  color: #121e16;
+  width: 300px;
+  padding: 15px;
+  margin: 5px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.my-pick {
+  width: 450px;
+  padding: 20px;
+  font-size: 22px;
+}
+
+.correct-pick {
+  background-color: green;
+  color: white;
+}
+
+.wrong-pick {
+  background-color: red;
+  color: white;
+}

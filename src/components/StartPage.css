@@ -1,4 +1,4 @@
-.start-site {
+.start-page {
   display: flex;
   justify-content: center;
   background: inherit;
@@ -21,14 +21,14 @@
   align-items: center;
 }
 
-.headline-image {
+.logo {
   max-width: 100%;
   height: auto;
   margin-bottom: 30px;
   max-height: 250px;
 }
 
-.quiz-starter {
+.quiz-start-action {
   display: flex;
   flex-direction: column;
   justify-content: center;

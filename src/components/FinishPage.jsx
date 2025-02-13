@@ -1,5 +1,5 @@
-import { useContext } from "react";
 import "./FinishPage.css";
+import { useContext } from "react";
 import { QuestionContext } from "./store/QuestionContext";
 import trophy from "../assets/trophy.webp";
 import Review from "./Review";
@@ -25,16 +25,16 @@ export default function FinishPage({ onTryAgain }) {
   const skipped = myPicks.filter((pick) => pick === "skipped");
 
   return (
-    <div className="finish-container">
+    <div className="finish-page">
       <div className="finish-frame">
         <img src={trophy} alt="Finish Page Picture" className="finish-image" />
-        <h2>Quiz completed!</h2>
-        <div className="result">
-          <Result picks={correctPicks} />
+        <h2 className="finish-header">Quiz completed!</h2>
+        <div className="results">
+          <Result picks={correctPicks} type="Correct" />
           <span className="separator"></span>
-          <Result picks={wrongPicks} />
+          <Result picks={wrongPicks} type="Wrong" />
           <span className="separator"></span>
-          <Result picks={skipped} />
+          <Result picks={skipped} type="Skipped" />
         </div>
         <button className="again-button" onClick={handleTryAgain}>
           Try Again

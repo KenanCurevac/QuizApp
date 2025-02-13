@@ -1,4 +1,4 @@
-.finish-container {
+.finish-page {
   display: flex;
   justify-content: center;
   background: inherit;
@@ -26,10 +26,25 @@
   border-radius: 30px;
 }
 
-.finish-frame h2 {
+.finish-header {
   color: #cfffdc;
   font-size: 38px;
   text-align: center;
+}
+
+.results {
+  display: flex;
+  flex-direction: row;
+  color: #cfffdc;
+  font-size: 28px;
+  text-align: center;
+}
+
+.separator {
+  background-color: #cfffdc;
+  width: 4px;
+  height: 110px;
+  margin: 0 12px;
 }
 
 .again-button {
@@ -48,69 +63,4 @@
 .again-button:hover {
   background-color: #0c9292;
   transform: scale(1.2, 1.1);
-}
-
-.result {
-  display: flex;
-  flex-direction: row;
-  color: #cfffdc;
-  font-size: 28px;
-  text-align: center;
-}
-
-.result-number {
-  font-size: 55px;
-}
-
-.separator {
-  background-color: #cfffdc;
-  width: 4px;
-  height: 110px;
-  margin: 0 12px;
-}
-
-.question-text-review {
-  background: transparent;
-  margin-bottom: 40px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #cefada;
-  text-align: center;
-}
-
-.options-review {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.option-review {
-  background-color: #cefada;
-  color: #121e16;
-  width: 300px;
-  padding: 15px;
-  margin: 5px;
-  border-radius: 8px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-}
-
-.my-pick {
-  width: 450px;
-  padding: 20px;
-  font-size: 22px;
-}
-
-.correct-pick {
-  background-color: green;
-  color: white;
-}
-
-.wrong-pick {
-  background-color: red;
-  color: white;
 }
