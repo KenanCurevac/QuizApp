@@ -8,7 +8,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 export default function QuestionsPage() {
   const [timeLeft, setTimeLeft] = useState(100);
   const [showAnswer, setShowAnswer] = useState(false);
-  const [skippedForReview, setSkippedForReview] = useState(false);
+  const [addSkipToHistoryTrigger, setAddSkipToHistoryTrigger] = useState(false);
 
   const {
     isFetching,
@@ -35,7 +35,7 @@ export default function QuestionsPage() {
     if (timeLeft === 0) {
       handleRevealAnswer();
       handleNextQuestion();
-      setSkippedForReview((trigger) => !trigger);
+      setAddSkipToHistoryTrigger((trigger) => !trigger);
     }
   }, [timeLeft]);
 
@@ -70,7 +70,7 @@ export default function QuestionsPage() {
           <Question
             onRevealAnswer={handleRevealAnswer}
             showAnswer={showAnswer}
-            skippedForReview={skippedForReview}
+            addSkipToHistoryTrigger={addSkipToHistoryTrigger}
           />
         )}
       </div>

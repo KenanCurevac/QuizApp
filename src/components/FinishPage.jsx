@@ -9,10 +9,10 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function FinishPage({ onTryAgain }) {
-  const { handleNewGame, history, reviewPicksRef } =
+  const { handleNewGame, history, pickedAnswersRef } =
     useContext(QuestionContext);
 
-  const myPicks = reviewPicksRef.current;
+  const myPicks = pickedAnswersRef.current;
 
   function handleTryAgain() {
     onTryAgain();

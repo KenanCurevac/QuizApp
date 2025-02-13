@@ -15,7 +15,7 @@ function QuestionContextProvider({ children, onFinish }) {
   const [history, setHistory] = useState([]);
   const [newCountdownTrigger, setNewCountdownTrigger] = useState(false);
 
-  const reviewPicksRef = useRef([]);
+  const pickedAnswersRef = useRef([]);
 
   const { fetchedData, setFetchedData, isFetching, error, setNewGameTrigger } =
     useFetch(fetchQuestions);
@@ -70,8 +70,8 @@ function QuestionContextProvider({ children, onFinish }) {
     setHistory([]);
   }
 
-  function handleReviewMyPicks(myPicks) {
-    reviewPicksRef.current = myPicks;
+  function handleAddPicksToHistory(myPicks) {
+    pickedAnswersRef.current = myPicks;
   }
 
   const questionCtx = {
@@ -82,8 +82,8 @@ function QuestionContextProvider({ children, onFinish }) {
     error,
     handleNewGame,
     newCountdownTrigger,
-    handleReviewMyPicks,
-    reviewPicksRef,
+    handleAddPicksToHistory,
+    pickedAnswersRef,
     history,
   };
 

@@ -5,44 +5,45 @@ import { QuestionContext } from "./store/QuestionContext";
 export default function Question({
   onRevealAnswer,
   showAnswer,
-  skippedForReview,
+  addSkipToHistoryTrigger,
 }) {
   const [selectedOption, setSelectedOption] = useState(null);
 
-  const { currentQuestion, handleNextQuestion, handleReviewMyPicks } =
+  const { currentQuestion, handleNextQuestion, handleAddPicksToHistory } =
     useContext(QuestionContext);
   const { question, correctAnswer, options } = currentQuestion;
 
   const pickedOptionsRef = useRef([]);
 
-  function handlePickOption(option) {
-    onRevealAnswer();
-    setSelectedOption(option);
-    handleNextQuestion();
-    pickedOptionsRef.current.push(option);
-    handleSendPicks();
-  }
-
   useEffect(() => {
     if (pickedOptionsRef.current.length > 0) {
       pickedOptionsRef.current.push(" ");
     }
-    handleSendPicks();
-  }, [skippedForReview]);
 
-  function handleSendPicks() {
     if (pickedOptionsRef.current.length === 10) {
-      handleReviewMyPicks([...pickedOptionsRef.current]);
+      handleAddPicksToHistory([...pickedOptionsRef.current]);
+    }
+  }, [addSkipToHistoryTrigger]);
+
+  function handlePickedOption(option) {
+    onRevealAnswer();
+    setSelectedOption(option);
+    handleNextQuestion();
+    pickedOptionsRef.current.push(option);
+
+    if (pickedOptionsRef.current.length === 10) {
+      handleAddPicksToHistory([...pickedOptionsRef.current]);
     }
   }
 
   return (
     <>
       {question && <div className="question-frame">{question}</div>}
-      {options && options.length > 0 ? (
+      {options && options.length > 0 && (
         <div className={`answer-options ${showAnswer ? "show-answer" : ""}`}>
           {options.map((option, index) => {
             let optionColor;
+
             if (showAnswer && option === correctAnswer) {
               optionColor = "correct-answer";
             } else if (
@@ -51,8 +52,6 @@ export default function Question({
               selectedOption === option
             ) {
               optionColor = "wrong-answer";
-            } else {
-              optionColor = "";
             }
 
             return (
@@ -61,15 +60,13 @@ export default function Question({
                 className={`option ${optionColor} ${
                   showAnswer ? "disabled-button" : ""
                 }`}
-                onClick={() => handlePickOption(option)}
+                onClick={() => handlePickedOption(option)}
               >
                 {option}
               </button>
             );
           })}
         </div>
-      ) : (
-        <div>Loading options...</div>
       )}
     </>
   );
