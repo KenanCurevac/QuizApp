@@ -17,7 +17,7 @@ export default function Question({
 
   useEffect(() => {
     if (pickedOptionsRef.current.length > 0) {
-      pickedOptionsRef.current.push(" ");
+      pickedOptionsRef.current.push("skipped");
     }
 
     if (pickedOptionsRef.current.length === 10) {

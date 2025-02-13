@@ -4,6 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { QuestionContext } from "./store/QuestionContext";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
+import DataStatus from "./DataStatus";
 
 export default function QuestionsPage() {
   const [timeLeft, setTimeLeft] = useState(100);
@@ -44,16 +45,16 @@ export default function QuestionsPage() {
     setShowAnswer(true);
   }
 
-  if (isFetching) {
-    return <div className="loading-message">Loading questions...</div>;
-  }
+  const statusMessage = (
+    <DataStatus
+      fetchedData={fetchedData}
+      isFetching={isFetching}
+      error={error}
+    />
+  );
 
-  if (error) {
-    return <div className="error-message">Error: {error.message}</div>;
-  }
-
-  if (!fetchedData || fetchedData.length === 0) {
-    return <div className="no-questions-message">No questions available.</div>;
+  if (isFetching || error || !fetchedData || fetchedData.length === 0) {
+    return statusMessage;
   }
 
   return (

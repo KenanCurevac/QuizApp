@@ -2,11 +2,8 @@ import { useContext } from "react";
 import "./FinishPage.css";
 import { QuestionContext } from "./store/QuestionContext";
 import trophy from "../assets/trophy.webp";
-
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Review from "./Review";
+import Result from "./Result";
 
 export default function FinishPage({ onTryAgain }) {
   const { handleNewGame, history, pickedAnswersRef } =
@@ -19,13 +16,13 @@ export default function FinishPage({ onTryAgain }) {
     handleNewGame();
   }
 
-  const correctPick = myPicks.filter(
+  const correctPicks = myPicks.filter(
     (pick, index) => pick === history[index].correctAnswer
   );
-  const wrongPick = myPicks.filter(
+  const wrongPicks = myPicks.filter(
     (pick, index) => pick !== history[index].correctAnswer && pick !== " "
   );
-  const skipped = myPicks.filter((pick) => pick === " ");
+  const skipped = myPicks.filter((pick) => pick === "skipped");
 
   return (
     <div className="finish-container">
@@ -33,86 +30,16 @@ export default function FinishPage({ onTryAgain }) {
         <img src={trophy} alt="Finish Page Picture" className="finish-image" />
         <h2>Quiz completed!</h2>
         <div className="result">
-          <div className="finish-message">
-            <div className="result-number">{`${correctPick.length}`}</div>{" "}
-            {`correct answer${correctPick.length !== 1 ? "s" : ""}`}
-          </div>
+          <Result picks={correctPicks} />
           <span className="separator"></span>
-          <div className="finish-message">
-            <div className="result-number">{`${wrongPick.length}`}</div>{" "}
-            {`wrong answer${wrongPick.length !== 1 ? "s" : ""}`}
-          </div>
+          <Result picks={wrongPicks} />
           <span className="separator"></span>
-          <div className="finish-message">
-            <div className="result-number">{`${skipped.length}`}</div>{" "}
-            {`skipped answer${skipped.length !== 1 ? "s" : ""}`}
-          </div>
+          <Result picks={skipped} />
         </div>
         <button className="again-button" onClick={handleTryAgain}>
           Try Again
         </button>
-
-        <Accordion
-          square="false"
-          sx={{
-            borderRadius: "15px",
-            overflow: "hidden",
-            background: "linear-gradient(#064848, #096C5C)",
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2-content"
-            id="panel2-header"
-            sx={{
-              "&:hover": { background: "#0C9292" },
-              color: "#cefada",
-              fontWeight: "bold",
-              fontSize: "27px",
-            }}
-          >
-            <div>Check Your Answers!</div>
-          </AccordionSummary>
-          <AccordionDetails
-            sx={{
-              borderTop: "2px solid #121e16",
-              padding: "35px 40px",
-            }}
-          >
-            {history.map((questionObject, questionIndex) => {
-              return (
-                <div
-                  key={questionObject.question}
-                  className="question-text-review"
-                >
-                  {questionObject.question}
-                  <div className="options-review">
-                    {history[questionIndex].options.map((questionOption) => {
-                      const isMyPick =
-                        questionOption === myPicks[questionIndex];
-                      const isCorrect =
-                        questionOption === history[questionIndex].correctAnswer;
-                      const isWrong = isMyPick && !isCorrect;
-
-                      return (
-                        <div
-                          key={questionOption}
-                          className={`option-review ${
-                            isMyPick ? "my-pick" : ""
-                          } ${isCorrect ? "correct-pick" : ""} ${
-                            isWrong ? "wrong-pick" : ""
-                          }`}
-                        >
-                          {questionOption}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </AccordionDetails>
-        </Accordion>
+        <Review history={history} myPicks={myPicks} />
       </div>
     </div>
   );
