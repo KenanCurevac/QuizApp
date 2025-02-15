@@ -9,6 +9,7 @@ export default function useFetch(fetchFun) {
   useEffect(() => {
     async function fetchData() {
       setIsFetching(true);
+
       try {
         const data = await fetchFun();
         setFetchedData(data);

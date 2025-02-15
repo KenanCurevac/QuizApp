@@ -1,7 +1,7 @@
 .MuiAccordion-root {
-  border-radius: 15px;
-  overflow: hidden;
-  background: linear-gradient(#064848, #096c5c);
+  border-radius: 15px !important;
+  overflow: hidden !important;
+  background: linear-gradient(#064848, #096c5c) !important;
 }
 
 .MuiAccordionSummary-content {
