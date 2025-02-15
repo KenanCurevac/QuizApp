@@ -39,6 +39,8 @@ export default function FinishPage({ onTryAgain }) {
         <button className="again-button" onClick={handleTryAgain}>
           Try Again
         </button>
+      </div>
+      <div className="review-container">
         <Review history={history} myPicks={myPicks} />
       </div>
     </div>

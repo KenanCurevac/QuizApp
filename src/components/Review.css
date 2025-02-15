@@ -14,6 +14,11 @@
   background: #0c9292;
 }
 
+.MuiSvgIcon-root {
+  color: #cefada;
+  font-size: 42px !important;
+}
+
 .game-review {
   border-top: 2px solid #121e16;
   padding: 35px 40px;

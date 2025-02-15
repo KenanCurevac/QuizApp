@@ -10,7 +10,7 @@ export default function DataStatus({ fetchedData, isFetching, error }) {
     return <div className="error-message">Error: {error.message}</div>;
   }
 
-  if (!isFetching && (Array.isArray(fetchedData) || fetchedData.length === 0)) {
+  if (!isFetching && !fetchedData) {
     return (
       <div className="error-message" style={{ margin: "36vh 24vw" }}>
         No Questions available.

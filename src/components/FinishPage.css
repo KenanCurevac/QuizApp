@@ -1,5 +1,6 @@
 .finish-page {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   background: inherit;
   min-width: 320px;
@@ -10,13 +11,28 @@
   flex: 1;
   min-width: 300px;
   max-width: 800px;
+  width: 100%;
   padding: 1.5rem;
-  margin: 2.5vh auto;
-  border-radius: 8px;
+  margin: 2.5vh auto 0px auto;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   box-shadow: 2px 4px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.review-container {
+  background-color: #121e16;
+  flex: 1;
+  min-width: 300px;
+  max-width: 800px;
+  width: 100%;
+  margin: 0px auto 2.5vh auto;
+  padding: 0rem 1.5rem 1.5rem 1.5rem;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  box-shadow: 2px 4px 10px;
 }
 
 .finish-image {
@@ -57,7 +73,7 @@
   font-size: 18px;
   font-weight: bold;
   letter-spacing: 1px;
-  margin: 25px auto;
+  margin: 25px auto 0px auto;
 }
 
 .again-button:hover {
