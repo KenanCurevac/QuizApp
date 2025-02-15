@@ -4,6 +4,7 @@
   justify-content: center;
   background: inherit;
   min-width: 320px;
+  padding: 0px 2vh;
 }
 
 .finish-frame {

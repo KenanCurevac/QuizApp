@@ -55,7 +55,9 @@
 }
 
 .my-pick {
-  width: 450px;
+  max-width: 450px;
+  width: 100%;
+  margin: 0px 40px;
   padding: 20px;
   font-size: 22px;
 }
