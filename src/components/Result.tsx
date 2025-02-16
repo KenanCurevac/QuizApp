@@ -1,4 +1,9 @@
-export default function Result({ picks, type }) {
+type ResultProps = {
+  picks: string[];
+  type: string;
+};
+
+export default function Result({ picks, type }: ResultProps) {
   return (
     <div>
       <div style={{ fontSize: "55px" }}>{`${picks.length}`}</div>{" "}

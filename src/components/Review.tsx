@@ -4,14 +4,23 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { QuestionData } from "../model/questionData";
 
-export default function Review({ history, myPicks }) {
-  const accordionRef = useRef(null);
+type ReviewProps = {
+  history: QuestionData[];
+  myPicks: string[];
+};
 
-  function handleAccordionExpansion(event, isExpanded) {
+export default function Review({ history, myPicks }: ReviewProps) {
+  const accordionRef = useRef<HTMLDivElement | null>(null);
+
+  function handleAccordionExpansion(
+    event: React.SyntheticEvent,
+    isExpanded: boolean
+  ) {
     if (accordionRef.current && isExpanded) {
       setTimeout(() => {
-        accordionRef.current.scrollIntoView({
+        accordionRef.current?.scrollIntoView({
           behavior: "smooth",
         });
       }, 200);

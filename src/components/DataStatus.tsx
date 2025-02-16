@@ -1,7 +1,18 @@
+import { QuizData } from "../model/quizData";
 import "./DataStatus.css";
 import CircularProgress from "@mui/material/CircularProgress";
 
-export default function DataStatus({ fetchedData, isFetching, error }) {
+type DataStatusProps = {
+  fetchedData: QuizData[];
+  isFetching: boolean;
+  error: any;
+};
+
+export default function DataStatus({
+  fetchedData,
+  isFetching,
+  error,
+}: DataStatusProps) {
   if (isFetching) {
     return <CircularProgress className="loading-spinner" />;
   }

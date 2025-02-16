@@ -5,11 +5,15 @@ import trophy from "../assets/trophy.webp";
 import Review from "./Review";
 import Result from "./Result";
 
-export default function FinishPage({ onTryAgain }) {
+type FinishPageProps = {
+  onTryAgain: () => void;
+};
+
+export default function FinishPage({ onTryAgain }: FinishPageProps) {
   const { handleNewGame, history, pickedAnswersRef } =
     useContext(QuestionContext);
 
-  const myPicks = pickedAnswersRef.current;
+  const myPicks = pickedAnswersRef;
 
   function handleTryAgain() {
     onTryAgain();

@@ -1,7 +1,9 @@
 import "./StartPage.css";
 import kameleon from "../assets/logokameleonpravi.png";
 
-export default function StartPage({ onStart }) {
+type StartPageProp = { onStart: () => void };
+
+export default function StartPage({ onStart }: StartPageProp) {
   return (
     <div className="start-page">
       <div className="start-message-frame">

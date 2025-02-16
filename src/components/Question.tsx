@@ -2,18 +2,24 @@ import "./Question.css";
 import { useContext, useEffect, useRef, useState } from "react";
 import { QuestionContext } from "./store/QuestionContext";
 
+type QuestionProps = {
+  onRevealAnswer: () => void;
+  showAnswer: boolean;
+  addSkipToHistoryTrigger: boolean;
+};
+
 export default function Question({
   onRevealAnswer,
   showAnswer,
   addSkipToHistoryTrigger,
-}) {
-  const [selectedOption, setSelectedOption] = useState(null);
+}: QuestionProps) {
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const { currentQuestion, handleNextQuestion, handleAddPicksToHistory } =
     useContext(QuestionContext);
   const { question, correctAnswer, options } = currentQuestion;
 
-  const pickedOptionsRef = useRef([]);
+  const pickedOptionsRef = useRef<string[]>([]);
 
   useEffect(() => {
     if (pickedOptionsRef.current.length > 0) {
@@ -25,7 +31,7 @@ export default function Question({
     }
   }, [addSkipToHistoryTrigger]);
 
-  function handlePickedOption(option) {
+  function handlePickedOption(option: string) {
     onRevealAnswer();
     setSelectedOption(option);
     handleNextQuestion();

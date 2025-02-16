@@ -19,7 +19,7 @@ export default function QuestionsPage() {
     handleNextQuestion,
   } = useContext(QuestionContext);
 
-  const intervalRef = useRef();
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     setShowAnswer(false);
@@ -29,7 +29,11 @@ export default function QuestionsPage() {
       setTimeLeft((prevTime) => prevTime - 2);
     }, 200);
 
-    return () => clearInterval(intervalRef.current);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, [newCountdownTrigger]);
 
   useEffect(() => {
@@ -41,7 +45,9 @@ export default function QuestionsPage() {
   }, [timeLeft]);
 
   function handleRevealAnswer() {
-    clearInterval(intervalRef.current);
+    if (intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
+    }
     setShowAnswer(true);
   }
 
