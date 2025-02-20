@@ -24,7 +24,7 @@ export default function FinishPage({ onTryAgain }: FinishPageProps) {
     (pick, index) => pick === history[index].correctAnswer
   );
   const wrongPicks = myPicks.filter(
-    (pick, index) => pick !== history[index].correctAnswer && pick !== " "
+    (pick, index) => pick !== history[index].correctAnswer && pick !== "skipped"
   );
   const skipped = myPicks.filter((pick) => pick === "skipped");
 
