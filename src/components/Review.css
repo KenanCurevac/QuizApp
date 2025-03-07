@@ -44,7 +44,8 @@
 .option-from-review {
   background-color: #cefada;
   color: #121e16;
-  width: 300px;
+  max-width: 300px;
+  width: 100%;
   padding: 15px;
   margin: 5px;
   border-radius: 8px;
@@ -70,4 +71,11 @@
 .wrong-pick {
   background-color: red;
   color: white;
+}
+
+@media (max-width: 600px) {
+  .option-from-review:not(.my-pick) {
+    width: 70%;
+    padding: 2.5vw;
+  }
 }

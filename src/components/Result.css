@@ -1,0 +1,34 @@
+.result {
+  width: 206px;
+  height: 110px;
+  font-size: 28px;
+}
+
+.answer-count {
+  font-size: 55px;
+}
+
+@media (max-width: 750px) {
+  .result {
+    width: 27vw;
+    height: auto;
+    font-size: 25px;
+  }
+
+  .answer-count {
+    font-size: 50px;
+  }
+}
+
+@media (max-width: 550px) {
+  .result {
+    width: 250px;
+    height: 110px;
+    font-size: 30px;
+    margin-bottom: 20px;
+  }
+
+  .answer-count {
+    font-size: 60px;
+  }
+}

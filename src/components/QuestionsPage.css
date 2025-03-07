@@ -13,9 +13,9 @@
   min-height: 500px;
   height: auto;
   padding: 35px 40px;
-  margin: 8vh 2vh;
+  margin: 4vw 15px;
   border-radius: 8px;
-  box-shadow: 2px 4px 10px;
+  box-shadow: 2px 4px 10px #121e16;
   display: flex;
   flex-direction: column;
   align-items: center;

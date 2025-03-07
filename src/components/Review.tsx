@@ -46,22 +46,21 @@ export default function Review({ history, myPicks }: ReviewProps) {
             <div key={questionObject.question} className="questions-review">
               {questionObject.question}
               <div className="options-review">
-                {history[questionIndex].options.map((questionOption) => {
-                  const isMyPick = questionOption === myPicks[questionIndex];
-                  const isCorrect =
-                    questionOption === history[questionIndex].correctAnswer;
+                {questionObject.options.map((option) => {
+                  const isMyPick = option === myPicks[questionIndex];
+                  const isCorrect = option === questionObject.correctAnswer;
                   const isWrong = isMyPick && !isCorrect;
 
                   return (
                     <div
-                      key={questionOption}
+                      key={`${questionIndex}-${option}`}
                       className={`option-from-review ${
                         isMyPick ? "my-pick" : ""
                       } ${isCorrect ? "correct-pick" : ""} ${
                         isWrong ? "wrong-pick" : ""
                       }`}
                     >
-                      {questionOption}
+                      {option}
                     </div>
                   );
                 })}

@@ -55,8 +55,13 @@ function QuestionContextProvider({
 
   const pickedAnswersRef = useRef<string[]>([]);
 
-  const { fetchedData, setFetchedData, isFetching, error, setNewGameTrigger } =
-    useFetch(fetchQuestions);
+  const {
+    fetchedData,
+    setFetchedData,
+    isFetching,
+    error,
+    setFetchNewDataTrigger,
+  } = useFetch(fetchQuestions);
 
   useEffect(() => {
     if (fetchedData && fetchedData.length > 0) {
@@ -84,14 +89,13 @@ function QuestionContextProvider({
 
   function handleNextQuestion() {
     const questionCounter = setTimeout(() => {
-      setQuestionNumber((prevNum) => {
-        if (prevNum < fetchedData.length - 1) {
+      if (fetchedData && questionNumber < fetchedData.length - 1) {
+        setQuestionNumber((prevNum) => {
           return prevNum + 1;
-        } else {
-          onFinish();
-          return prevNum;
-        }
-      });
+        });
+      } else {
+        onFinish();
+      }
 
       setNewCountdownTrigger((trigger) => !trigger);
     }, 1500);
@@ -102,7 +106,7 @@ function QuestionContextProvider({
   }
 
   function handleNewGame() {
-    setNewGameTrigger((trigger) => !trigger);
+    setFetchNewDataTrigger((trigger) => !trigger);
     setFetchedData(null);
     setQuestionNumber(0);
     setHistory([]);
@@ -115,7 +119,7 @@ function QuestionContextProvider({
   const questionCtx: ContextObject = {
     handleNextQuestion,
     currentQuestion,
-    fetchedData,
+    fetchedData: fetchedData || [],
     isFetching,
     error,
     handleNewGame,

@@ -43,3 +43,15 @@
 .disabled-button {
   pointer-events: none;
 }
+
+@media (max-width: 750px) {
+  .option:hover:not(.disabled-button),
+  .option:active:not(.disabled-button),
+  .option:focus:not(.disabled-button) {
+    background-color: #cefada;
+  }
+
+  .option {
+    transition: none;
+  }
+}

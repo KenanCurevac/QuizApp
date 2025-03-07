@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
+import { QuizData } from "../../model/quizData";
 
-type FetchFunction<T> = () => Promise<T>;
+type FetchFunction = () => Promise<QuizData[]>;
 
-type FetchState<T> = {
-  fetchedData: T | null;
-  setFetchedData: React.Dispatch<React.SetStateAction<T | null>>;
+type FetchState = {
+  fetchedData: QuizData[] | null;
+  setFetchedData: React.Dispatch<React.SetStateAction<QuizData[] | null>>;
   isFetching: boolean;
   error: { message: string } | null;
-  setNewGameTrigger: React.Dispatch<React.SetStateAction<boolean>>;
+  setFetchNewDataTrigger: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function useFetch<T>(fetchFun: FetchFunction<T>): FetchState<T> {
-  const [fetchedData, setFetchedData] = useState<T | null>(null);
+export default function useFetch(fetchFun: FetchFunction): FetchState {
+  const [fetchedData, setFetchedData] = useState<QuizData[] | null>(null);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState<{ message: string } | null>(null);
-  const [newGameTrigger, setNewGameTrigger] = useState(false);
+  const [fetchNewDataTrigger, setFetchNewDataTrigger] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -22,7 +23,6 @@ export default function useFetch<T>(fetchFun: FetchFunction<T>): FetchState<T> {
 
       try {
         const data = await fetchFun();
-        console.log(data, "data");
         setFetchedData(data);
       } catch (error: unknown) {
         if (error instanceof Error) {
@@ -35,13 +35,13 @@ export default function useFetch<T>(fetchFun: FetchFunction<T>): FetchState<T> {
     }
 
     fetchData();
-  }, [fetchFun, newGameTrigger]);
+  }, [fetchFun, fetchNewDataTrigger]);
 
   return {
     fetchedData,
     setFetchedData,
     isFetching,
     error,
-    setNewGameTrigger,
+    setFetchNewDataTrigger,
   };
 }

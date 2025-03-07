@@ -1,3 +1,5 @@
+import "./Result.css";
+
 type ResultProps = {
   picks: string[];
   type: string;
@@ -5,8 +7,8 @@ type ResultProps = {
 
 export default function Result({ picks, type }: ResultProps) {
   return (
-    <div>
-      <div style={{ fontSize: "55px" }}>{`${picks.length}`}</div>{" "}
+    <div className="result">
+      <div className="answer-count">{`${picks.length}`}</div>{" "}
       {`${type} answer${picks.length !== 1 ? "s" : ""}`}
     </div>
   );
