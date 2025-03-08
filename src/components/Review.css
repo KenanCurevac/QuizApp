@@ -10,10 +10,6 @@
   font-size: 27px;
 }
 
-.MuiAccordionSummary-gutters:hover {
-  background: #0c9292;
-}
-
 .MuiSvgIcon-root {
   color: #cefada;
   font-size: 42px !important;
@@ -77,5 +73,11 @@
   .option-from-review:not(.my-pick) {
     width: 70%;
     padding: 2.5vw;
+  }
+}
+
+@media (min-width: 750px) {
+  .MuiAccordionSummary-gutters:hover {
+    background: #0c9292;
   }
 }

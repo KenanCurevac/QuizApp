@@ -1,5 +1,5 @@
 import "./FinishPage.css";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { QuestionContext } from "./store/QuestionContext";
 import trophy from "../assets/trophy.webp";
 import Review from "./Review";
@@ -19,6 +19,11 @@ export default function FinishPage({ onTryAgain }: FinishPageProps) {
     onTryAgain();
     handleNewGame();
   }
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = trophy;
+  }, []);
 
   const correctPicks = myPicks.filter(
     (pick, index) => pick === history[index].correctAnswer
