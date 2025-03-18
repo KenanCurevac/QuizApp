@@ -6,12 +6,14 @@ type QuestionProps = {
   onRevealAnswer: () => void;
   showAnswer: boolean;
   addSkipToHistoryTrigger: boolean;
+  countingSkipped: boolean;
 };
 
 export default function Question({
   onRevealAnswer,
   showAnswer,
   addSkipToHistoryTrigger,
+  countingSkipped,
 }: QuestionProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
@@ -22,7 +24,7 @@ export default function Question({
   const pickedOptionsRef = useRef<string[]>([]);
 
   useEffect(() => {
-    if (pickedOptionsRef.current.length > 0) {
+    if (countingSkipped) {
       pickedOptionsRef.current.push("skipped");
     }
 

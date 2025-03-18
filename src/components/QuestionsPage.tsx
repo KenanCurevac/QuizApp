@@ -10,6 +10,7 @@ export default function QuestionsPage() {
   const [timeLeft, setTimeLeft] = useState(100);
   const [showAnswer, setShowAnswer] = useState(false);
   const [addSkipToHistoryTrigger, setAddSkipToHistoryTrigger] = useState(false);
+  const [countingSkipped, setCountingSkip] = useState(false);
 
   const {
     isFetching,
@@ -40,6 +41,7 @@ export default function QuestionsPage() {
     if (timeLeft === 0) {
       handleRevealAnswer();
       handleNextQuestion();
+      setCountingSkip(true);
       setAddSkipToHistoryTrigger((trigger) => !trigger);
     }
   }, [timeLeft]);
@@ -74,6 +76,7 @@ export default function QuestionsPage() {
             onRevealAnswer={handleRevealAnswer}
             showAnswer={showAnswer}
             addSkipToHistoryTrigger={addSkipToHistoryTrigger}
+            countingSkipped={countingSkipped}
           />
         )}
       </div>
