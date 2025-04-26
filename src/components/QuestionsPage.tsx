@@ -1,68 +1,71 @@
 import "./QuestionsPage.css";
-import { useContext, useEffect, useRef, useState } from "react";
-import { QuestionContext } from "./store/QuestionContext";
-import Question from "./Question";
+import { useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
-import DataStatus from "./DataStatus";
+import { useAppSelector, useAppDispatch } from "../store/hooks";
+import { myPicksActions } from "../store";
 
-export default function QuestionsPage() {
+type QuestionsPageProps = {
+  onFinish: () => void;
+};
+
+export default function QuestionsPage({ onFinish }: QuestionsPageProps) {
   const [timeLeft, setTimeLeft] = useState(100);
   const [showAnswer, setShowAnswer] = useState(false);
-  const [addSkipToHistoryTrigger, setAddSkipToHistoryTrigger] = useState(false);
-  const [countingSkipped, setCountingSkip] = useState(false);
+  const [questionNumber, setQuestionNumber] = useState(0);
+  const [newCountdownTrigger, setNewCountdownTrigger] = useState(false);
+  const [currentPick, setCurrentPick] = useState("");
 
-  const {
-    isFetching,
-    error,
-    fetchedData,
-    newCountdownTrigger,
-    handleNextQuestion,
-  } = useContext(QuestionContext);
+  const quizData = useAppSelector((state) => state.quizData);
+  const { question, correctAnswer, options } = quizData[questionNumber];
+  const dispatch = useAppDispatch();
 
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     setShowAnswer(false);
     setTimeLeft(100);
 
-    intervalRef.current = setInterval(() => {
+    countdownRef.current = setInterval(() => {
       setTimeLeft((prevTime) => prevTime - 2);
     }, 200);
 
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+      if (countdownRef.current) {
+        clearInterval(countdownRef.current);
       }
     };
   }, [newCountdownTrigger]);
 
   useEffect(() => {
     if (timeLeft === 0) {
-      handleRevealAnswer();
-      handleNextQuestion();
-      setCountingSkip(true);
-      setAddSkipToHistoryTrigger((trigger) => !trigger);
+      handleQuestions("skipped");
     }
   }, [timeLeft]);
 
-  function handleRevealAnswer() {
-    if (intervalRef.current !== null) {
-      clearInterval(intervalRef.current);
+  function handleQuestions(option: string) {
+    if (countdownRef.current !== null) {
+      clearInterval(countdownRef.current);
     }
+    setCurrentPick(option);
+    dispatch(myPicksActions.setMyPicks(option));
     setShowAnswer(true);
-  }
 
-  const statusMessage = (
-    <DataStatus
-      fetchedData={fetchedData}
-      isFetching={isFetching}
-      error={error}
-    />
-  );
+    const questionCounter = setTimeout(() => {
+      if (quizData && questionNumber < quizData.length - 1) {
+        setQuestionNumber((prevNum) => {
+          return prevNum + 1;
+        });
+      } else {
+        onFinish();
+      }
 
-  if (isFetching || error || !fetchedData || fetchedData.length === 0) {
-    return statusMessage;
+      setNewCountdownTrigger((trigger) => !trigger);
+    }, 1500);
+
+    return () => {
+      clearTimeout(questionCounter);
+    };
   }
 
   return (
@@ -71,13 +74,41 @@ export default function QuestionsPage() {
         <Box sx={{ width: "100%" }}>
           <LinearProgress variant="determinate" value={timeLeft} />
         </Box>
-        {fetchedData && (
-          <Question
-            onRevealAnswer={handleRevealAnswer}
-            showAnswer={showAnswer}
-            addSkipToHistoryTrigger={addSkipToHistoryTrigger}
-            countingSkipped={countingSkipped}
-          />
+        {quizData && (
+          <div>
+            {question && <div className="question-frame">{question}</div>}
+            {options && options.length > 0 && (
+              <div className="answer-options">
+                {options.map((option, index) => {
+                  let optionColor;
+
+                  if (showAnswer && option === correctAnswer) {
+                    optionColor = "correct-answer";
+                  } else if (
+                    showAnswer &&
+                    option !== correctAnswer &&
+                    option === currentPick
+                  ) {
+                    optionColor = "wrong-answer";
+                  }
+
+                  return (
+                    <button
+                      key={index}
+                      className={`option ${optionColor} ${
+                        showAnswer ? "disabled-button" : ""
+                      }`}
+                      onClick={() => {
+                        handleQuestions(option);
+                      }}
+                    >
+                      {option}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         )}
       </div>
     </div>

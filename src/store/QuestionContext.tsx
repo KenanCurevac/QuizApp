@@ -1,16 +1,14 @@
 import { createContext, useEffect, useRef, useState } from "react";
-import useFetch from "../hooks/useFetch";
+import useFetch from "../components/hooks/useFetch";
 import axios from "axios";
-import { QuizData } from "../../model/quizData";
-import { QuestionData } from "../../model/questionData";
+import { QuizData } from "../model/quizData";
+import { QuestionData } from "../model/questionData";
 
 type QuestionContextProviderProps = {
   children: React.ReactNode;
-  onFinish: () => void;
 };
 
 type ContextObject = {
-  handleNextQuestion: () => void;
   currentQuestion: QuestionData;
   fetchedData: QuizData[];
   isFetching: boolean;
@@ -23,7 +21,6 @@ type ContextObject = {
 };
 
 const QuestionContext = createContext<ContextObject>({
-  handleNextQuestion: () => {},
   currentQuestion: { question: "", correctAnswer: "", options: [] },
   fetchedData: [],
   isFetching: false,
@@ -40,10 +37,7 @@ async function fetchQuestions() {
   return response.data;
 }
 
-function QuestionContextProvider({
-  children,
-  onFinish,
-}: QuestionContextProviderProps) {
+function QuestionContextProvider({ children }: QuestionContextProviderProps) {
   const [questionNumber, setQuestionNumber] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState<QuestionData>({
     question: "",
@@ -87,24 +81,6 @@ function QuestionContextProvider({
     }
   }, [fetchedData, questionNumber]);
 
-  function handleNextQuestion() {
-    const questionCounter = setTimeout(() => {
-      if (fetchedData && questionNumber < fetchedData.length - 1) {
-        setQuestionNumber((prevNum) => {
-          return prevNum + 1;
-        });
-      } else {
-        onFinish();
-      }
-
-      setNewCountdownTrigger((trigger) => !trigger);
-    }, 1500);
-
-    return () => {
-      clearTimeout(questionCounter);
-    };
-  }
-
   function handleNewGame() {
     setFetchNewDataTrigger((trigger) => !trigger);
     setFetchedData(null);
@@ -117,7 +93,6 @@ function QuestionContextProvider({
   }
 
   const questionCtx: ContextObject = {
-    handleNextQuestion,
     currentQuestion,
     fetchedData: fetchedData || [],
     isFetching,

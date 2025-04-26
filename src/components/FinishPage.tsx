@@ -1,6 +1,6 @@
 import "./FinishPage.css";
 import { useContext, useEffect } from "react";
-import { QuestionContext } from "./store/QuestionContext";
+import { QuestionContext } from "../store/QuestionContext";
 import trophy from "../assets/trophy.webp";
 import Review from "./Review";
 import Result from "./Result";
