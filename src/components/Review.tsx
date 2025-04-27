@@ -7,11 +7,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { QuestionData } from "../model/questionData";
 
 type ReviewProps = {
-  history: QuestionData[];
+  allQuestions: QuestionData[];
   myPicks: string[];
 };
 
-export default function Review({ history, myPicks }: ReviewProps) {
+export default function Review({ allQuestions, myPicks }: ReviewProps) {
   const accordionRef = useRef<HTMLDivElement | null>(null);
 
   function handleAccordionExpansion(
@@ -41,14 +41,16 @@ export default function Review({ history, myPicks }: ReviewProps) {
         <div>Check Your Answers!</div>
       </AccordionSummary>
       <AccordionDetails className="game-review">
-        {history.map((questionObject, questionIndex) => {
+        {allQuestions.map((questionObject, questionIndex) => {
+          const { question, correctAnswer, options } = questionObject;
+
           return (
-            <div key={questionObject.question} className="questions-review">
-              {questionObject.question}
+            <div key={question} className="questions-review">
+              {question}
               <div className="options-review">
-                {questionObject.options.map((option) => {
+                {options.map((option) => {
                   const isMyPick = option === myPicks[questionIndex];
-                  const isCorrect = option === questionObject.correctAnswer;
+                  const isCorrect = option === correctAnswer;
                   const isWrong = isMyPick && !isCorrect;
 
                   return (

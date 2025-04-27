@@ -69,6 +69,28 @@
   pointer-events: none;
 }
 
+.error-message {
+  font-size: 4.5vw;
+  white-space: nowrap;
+  font-weight: bold;
+  color: #121e16;
+  text-align: center;
+  margin: 36vh 4vw;
+  max-width: 400px;
+}
+
+.loading-spinner {
+  position: fixed;
+  top: 30%;
+  left: 38%;
+}
+
+.MuiCircularProgress-root {
+  width: 20vw !important;
+  height: 20vw !important;
+  color: #121e16 !important;
+}
+
 @media (max-width: 750px) {
   .option {
     transition: background-color 0.1s ease;

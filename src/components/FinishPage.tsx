@@ -1,23 +1,25 @@
 import "./FinishPage.css";
-import { useContext, useEffect } from "react";
-import { QuestionContext } from "../store/QuestionContext";
+import { useEffect } from "react";
 import trophy from "../assets/trophy.webp";
 import Review from "./Review";
-import Result from "./Result";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { myPicksActions, questionNumberActions } from "../store";
+import { fetchQuizData } from "../store/cart-actions";
 
 type FinishPageProps = {
   onTryAgain: () => void;
 };
 
 export default function FinishPage({ onTryAgain }: FinishPageProps) {
-  const { handleNewGame, history, pickedAnswersRef } =
-    useContext(QuestionContext);
+  const allQuestions = useAppSelector((state) => state.quizData);
+  const myPicks = useAppSelector((state) => state.myPicks);
+  const dispatch = useAppDispatch();
 
-  const myPicks = pickedAnswersRef;
-
-  function handleTryAgain() {
+  function handleNewGame() {
     onTryAgain();
-    handleNewGame();
+    dispatch(fetchQuizData());
+    dispatch(questionNumberActions.startAgain());
+    dispatch(myPicksActions.resetMyPicks());
   }
 
   useEffect(() => {
@@ -26,10 +28,11 @@ export default function FinishPage({ onTryAgain }: FinishPageProps) {
   }, []);
 
   const correctPicks = myPicks.filter(
-    (pick, index) => pick === history[index].correctAnswer
+    (pick, index) => pick === allQuestions[index].correctAnswer
   );
   const wrongPicks = myPicks.filter(
-    (pick, index) => pick !== history[index].correctAnswer && pick !== "skipped"
+    (pick, index) =>
+      pick !== allQuestions[index].correctAnswer && pick !== "skipped"
   );
   const skipped = myPicks.filter((pick) => pick === "skipped");
 
@@ -39,18 +42,27 @@ export default function FinishPage({ onTryAgain }: FinishPageProps) {
         <img src={trophy} alt="Finish Page Picture" className="finish-image" />
         <h2 className="finish-header">Quiz completed!</h2>
         <div className="results">
-          <Result picks={correctPicks} type="Correct" />
+          <div className="result">
+            <div className="answer-count">{`${correctPicks.length}`}</div>{" "}
+            {`Correct answer${correctPicks.length !== 1 ? "s" : ""}`}
+          </div>
           <span className="separator"></span>
-          <Result picks={wrongPicks} type="Wrong" />
+          <div className="result">
+            <div className="answer-count">{`${wrongPicks.length}`}</div>{" "}
+            {`Wrong answer${wrongPicks.length !== 1 ? "s" : ""}`}
+          </div>
           <span className="separator"></span>
-          <Result picks={skipped} type="Skipped" />
+          <div className="result">
+            <div className="answer-count">{`${skipped.length}`}</div>{" "}
+            {`Skipped answer${skipped.length !== 1 ? "s" : ""}`}
+          </div>
         </div>
-        <button className="again-button" onClick={handleTryAgain}>
+        <button className="again-button" onClick={handleNewGame}>
           Try Again
         </button>
       </div>
       <div className="review-container">
-        <Review history={history} myPicks={myPicks} />
+        <Review allQuestions={allQuestions} myPicks={myPicks} />
       </div>
     </div>
   );

@@ -63,6 +63,16 @@
   margin: 0 12px;
 }
 
+.result {
+  width: 206px;
+  height: 110px;
+  font-size: 28px;
+}
+
+.answer-count {
+  font-size: 55px;
+}
+
 .again-button {
   background-color: #cfffdc;
   color: #121e16;
@@ -79,6 +89,18 @@
 .again-button:hover {
   background-color: #0c9292;
   transform: scale(1.2, 1.1);
+}
+
+@media (max-width: 750px) {
+  .result {
+    width: 27vw;
+    height: auto;
+    font-size: 25px;
+  }
+
+  .answer-count {
+    font-size: 50px;
+  }
 }
 
 @media (max-width: 550px) {
@@ -103,5 +125,16 @@
 
   .review-container {
     padding-bottom: 28px;
+  }
+
+  .result {
+    width: 250px;
+    height: 110px;
+    font-size: 30px;
+    margin-bottom: 20px;
+  }
+
+  .answer-count {
+    font-size: 60px;
   }
 }

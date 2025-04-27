@@ -2,8 +2,9 @@ import "./QuestionsPage.css";
 import { useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
-import { myPicksActions } from "../store";
+import { myPicksActions, questionNumberActions } from "../store";
 
 type QuestionsPageProps = {
   onFinish: () => void;
@@ -12,12 +13,13 @@ type QuestionsPageProps = {
 export default function QuestionsPage({ onFinish }: QuestionsPageProps) {
   const [timeLeft, setTimeLeft] = useState(100);
   const [showAnswer, setShowAnswer] = useState(false);
-  const [questionNumber, setQuestionNumber] = useState(0);
   const [newCountdownTrigger, setNewCountdownTrigger] = useState(false);
   const [currentPick, setCurrentPick] = useState("");
 
   const quizData = useAppSelector((state) => state.quizData);
-  const { question, correctAnswer, options } = quizData[questionNumber];
+  const questionNumber = useAppSelector((state) => state.questionNumber);
+  const isLoading = useAppSelector((state) => state.dataStatus.isLoading);
+  const errorMessage = useAppSelector((state) => state.dataStatus.errorMessage);
   const dispatch = useAppDispatch();
 
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -53,13 +55,10 @@ export default function QuestionsPage({ onFinish }: QuestionsPageProps) {
 
     const questionCounter = setTimeout(() => {
       if (quizData && questionNumber < quizData.length - 1) {
-        setQuestionNumber((prevNum) => {
-          return prevNum + 1;
-        });
+        dispatch(questionNumberActions.nextQuestion());
       } else {
         onFinish();
       }
-
       setNewCountdownTrigger((trigger) => !trigger);
     }, 1500);
 
@@ -67,6 +66,16 @@ export default function QuestionsPage({ onFinish }: QuestionsPageProps) {
       clearTimeout(questionCounter);
     };
   }
+
+  if (isLoading) {
+    return <CircularProgress className="loading-spinner" />;
+  }
+
+  if (errorMessage) {
+    return <div className="error-message">{errorMessage}</div>;
+  }
+
+  const { question, correctAnswer, options } = quizData[questionNumber];
 
   return (
     <div className="question-page">

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { quizDataActions } from ".";
+import { quizDataActions, dataStatusActions } from ".";
 import { AppDispatch } from "./index";
 
 export type APIResponse = {
@@ -25,6 +25,8 @@ type QuizQuestion = {
 
 export function fetchQuizData() {
   return async (dispatch: AppDispatch) => {
+    dispatch(dataStatusActions.setLoading());
+
     async function fetchData() {
       const response = await axios.get(
         "https://the-trivia-api.com/v2/questions"
@@ -34,9 +36,16 @@ export function fetchQuizData() {
 
     try {
       const fetchedQuizResponse = await fetchData();
+      dispatch(dataStatusActions.resetStatus());
       const quizData = transformResponse(fetchedQuizResponse);
       dispatch(quizDataActions.setQuizData(quizData));
-    } catch (error) {}
+    } catch (error) {
+      if (error instanceof Error) {
+        dispatch(dataStatusActions.setError(error.message));
+      } else {
+        dispatch(dataStatusActions.setError("An unknown error occurred"));
+      }
+    }
   };
 }
 
