@@ -49,6 +49,7 @@ const dataStatusSlice = createSlice({
     },
     setError(state, action) {
       state.errorMessage = action.payload;
+      state.isLoading = false;
     },
     resetStatus(state) {
       state.isLoading = false;
